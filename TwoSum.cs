@@ -1,22 +1,15 @@
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
-        var arr = new (int Value, int Index)[nums.Length];
+        Dictionary<int, int> mapDict = new Dictionary<int, int>();
         for (int i = 0; i < nums.Length; i++) {
-            arr[i] = (nums[i], i);
-        }
-
-        Array.Sort(arr, (a, b) => a.Value.CompareTo(b.Value));
-
-        int left = 0, right = nums.Length - 1;
-        while (left < right) {
-            int sum = arr[left].Value + arr[right].Value;
-            if (sum == target) {
-                return new int[] { arr[left].Index, arr[right].Index };
+            int complement = target - nums[i];
+            if (mapDict.ContainsKey(complement)) {
+                return new int[] { mapDict[complement], i };
             }
-            if (sum < target) left++;
-            else right--;
+            if (!mapDict.ContainsKey(nums[i])) {
+                mapDict.Add(nums[i], i);
+            }
         }
-
         return Array.Empty<int>();
     }
 }
