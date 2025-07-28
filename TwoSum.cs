@@ -1,20 +1,22 @@
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
-        int[] output = [];
+        var arr = new (int Value, int Index)[nums.Length];
         for (int i = 0; i < nums.Length; i++) {
-            for (int j = 0; j < nums.Length; j++) {
-                if (i == j) {
-                    j++;
-                }
-                if (nums[i] + nums[j] == target) {
-                    output = [i, j];
-                    break;
-                }
-            }
-            if (output.Length == 2) {
-                break;
-            }
+            arr[i] = (nums[i], i);
         }
-        return output;
+
+        Array.Sort(arr, (a, b) => a.Value.CompareTo(b.Value));
+
+        int left = 0, right = nums.Length - 1;
+        while (left < right) {
+            int sum = arr[left].Value + arr[right].Value;
+            if (sum == target) {
+                return new int[] { arr[left].Index, arr[right].Index };
+            }
+            if (sum < target) left++;
+            else right--;
+        }
+
+        return Array.Empty<int>();
     }
 }
